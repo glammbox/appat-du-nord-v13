@@ -7,55 +7,84 @@ interface SiteHeaderProps {
 export function SiteHeader({ locale, onLocaleToggle, cartCount = 0 }: SiteHeaderProps) {
   return (
     <header
-      className="sticky top-0 z-40 flex items-center justify-between px-6 py-3"
+      className="sticky top-0 z-40 flex items-center justify-between px-6 py-4"
       style={{
-        background: 'rgba(6,14,24,0.95)',
-        backdropFilter: 'blur(12px)',
+        background: 'rgba(13,20,24,0.96)',
+        backdropFilter: 'blur(16px)',
         borderBottom: '1px solid var(--border)',
       }}
     >
+      {/* Logo */}
       <div className="flex items-center gap-3">
-        <span className="text-2xl">🎣</span>
         <div>
           <h1
-            className="text-xl font-bold leading-none"
-            style={{ fontFamily: 'Oswald, sans-serif', color: 'var(--text-primary)', letterSpacing: '0.05em' }}
+            style={{
+              fontFamily: 'Newsreader, serif',
+              fontSize: '1.35rem',
+              fontWeight: 600,
+              color: 'var(--text)',
+              letterSpacing: '0.08em',
+              margin: 0,
+              lineHeight: 1,
+            }}
           >
-            APPÂT DU NORD
+            Appât du Nord
           </h1>
-          <p className="text-xs" style={{ color: 'var(--accent-gold)', letterSpacing: '0.15em' }}>
-            {locale === 'fr' ? 'PÊCHE AU QUÉBEC' : 'QUEBEC FISHING'}
+          <p style={{
+            fontFamily: 'Roboto, sans-serif',
+            fontSize: 'var(--eyebrow)',
+            color: 'var(--accent)',
+            letterSpacing: '0.2em',
+            textTransform: 'uppercase',
+            margin: '3px 0 0',
+            fontWeight: 500,
+          }}>
+            {locale === 'fr' ? 'Atlas de pêche — Québec' : 'Quebec Fishing Atlas'}
           </p>
         </div>
       </div>
-      <nav className="flex items-center gap-4 text-sm" style={{ color: 'var(--text-secondary)' }}>
-        <span className="hidden md:block text-xs" style={{ color: 'var(--text-muted)' }}>
-          🇨🇦 Québec · {locale === 'fr' ? 'Saison 2026' : 'Season 2026'}
+
+      {/* Nav */}
+      <nav className="flex items-center gap-5" style={{ color: 'var(--muted-text)' }}>
+        <span
+          className="hidden md:block"
+          style={{ fontSize: 'var(--eyebrow)', color: 'var(--muted-text)', letterSpacing: '0.1em', textTransform: 'uppercase' }}
+        >
+          🇨🇦 {locale === 'fr' ? 'Saison 2026' : 'Season 2026'}
         </span>
 
-        {/* FIX 7 — Cart icon with badge */}
+        {/* Cart */}
         {cartCount > 0 && (
-          <div style={{ position: 'relative', display: 'inline-block', cursor: 'default' }}>
+          <div style={{ position: 'relative', display: 'inline-block', cursor: 'default', color: 'var(--text)' }}>
             🛒
             <span style={{
               position: 'absolute', top: '-8px', right: '-8px',
-              background: 'var(--accent)', color: 'white',
+              background: 'var(--accent)', color: '#0D1418',
               borderRadius: '50%', width: '16px', height: '16px',
-              fontSize: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center'
-            }}>{cartCount}</span>
+              fontSize: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontWeight: 700,
+            }}>
+              {cartCount}
+            </span>
           </div>
         )}
 
+        {/* Locale Toggle */}
         <button
           onClick={onLocaleToggle}
-          className="px-3 py-1.5 rounded-full text-xs font-bold transition-all"
           style={{
+            padding: '0.4rem 1rem',
             background: 'var(--surface)',
             border: '1px solid var(--border)',
-            color: 'var(--accent-gold)',
-            fontFamily: 'Oswald, sans-serif',
-            letterSpacing: '0.1em',
+            color: 'var(--accent)',
+            fontFamily: 'Roboto, sans-serif',
+            fontSize: 'var(--eyebrow)',
+            letterSpacing: '0.2em',
+            fontWeight: 700,
+            textTransform: 'uppercase',
             cursor: 'pointer',
+            transition: 'all 0.2s ease',
+            borderRadius: '0px',
           }}
         >
           {locale === 'fr' ? 'EN' : 'FR'}

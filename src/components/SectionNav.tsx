@@ -6,36 +6,46 @@ interface SectionNavProps {
   locale: 'fr' | 'en'
 }
 
-const sections: { id: Section; labelFr: string; labelEn: string; icon: string }[] = [
-  { id: 'especes', labelFr: 'ESPÈCES', labelEn: 'SPECIES', icon: '🐟' },
-  { id: 'arsenal', labelFr: 'ARSENAL', labelEn: 'GEAR', icon: '🎣' },
-  { id: 'calendrier', labelFr: 'CALENDRIER', labelEn: 'CALENDAR', icon: '📅' },
-  { id: 'conseils', labelFr: 'CONSEILS', labelEn: 'TIPS', icon: '💡' },
-  { id: 'eaux', labelFr: 'EAUX', labelEn: 'WATERS', icon: '🗺️' },
+const sections: { id: Section; labelFr: string; labelEn: string }[] = [
+  { id: 'especes', labelFr: 'Espèces', labelEn: 'Species' },
+  { id: 'arsenal', labelFr: 'Arsenal', labelEn: 'Gear' },
+  { id: 'calendrier', labelFr: 'Calendrier', labelEn: 'Calendar' },
+  { id: 'conseils', labelFr: 'Conseils', labelEn: 'Tips' },
+  { id: 'eaux', labelFr: 'Eaux', labelEn: 'Waters' },
 ]
 
 export function SectionNav({ active, onSelect, locale }: SectionNavProps) {
   return (
     <div
-      className="sticky top-[57px] z-30 py-3"
-      style={{ background: 'var(--bg-elevated)', borderBottom: '1px solid var(--border)' }}
+      className="sticky top-[65px] z-30 py-0"
+      style={{
+        background: 'var(--surface)',
+        borderBottom: '1px solid var(--border)',
+      }}
     >
-      <div className="flex gap-2 overflow-x-auto px-4 pb-1 scrollbar-hide">
+      <div className="flex gap-0 overflow-x-auto px-0 scrollbar-hide">
         {sections.map((s) => (
           <button
             key={s.id}
             onClick={() => onSelect(s.id)}
-            className="flex-shrink-0 flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200"
             style={{
-              fontFamily: 'Oswald, sans-serif',
-              letterSpacing: '0.08em',
-              background: active === s.id ? 'var(--accent)' : 'var(--surface)',
-              color: active === s.id ? 'white' : 'var(--text-secondary)',
-              border: `1px solid ${active === s.id ? 'var(--accent)' : 'var(--border)'}`,
+              flex: 'none',
+              padding: '0.85rem 1.5rem',
+              background: 'transparent',
+              color: active === s.id ? 'var(--text)' : 'var(--muted-text)',
+              border: 'none',
+              borderBottom: active === s.id ? '2px solid var(--accent)' : '2px solid transparent',
+              fontFamily: 'Roboto, sans-serif',
+              fontSize: 'var(--eyebrow)',
+              fontWeight: active === s.id ? 700 : 400,
+              letterSpacing: '0.15em',
+              textTransform: 'uppercase',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+              whiteSpace: 'nowrap',
             }}
           >
-            <span>{s.icon}</span>
-            <span>{locale === 'fr' ? s.labelFr : s.labelEn}</span>
+            {locale === 'fr' ? s.labelFr : s.labelEn}
           </button>
         ))}
       </div>

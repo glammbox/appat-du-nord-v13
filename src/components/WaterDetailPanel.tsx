@@ -126,12 +126,31 @@ export function WaterDetailPanel({ water, onClose, onViewGear, locale, onViewSpe
             </div>
           </div>
 
-          {/* Best Season */}
+          {/* Lake Characteristics */}
           <div>
             <h4 className="text-sm font-semibold mb-1" style={{ color: 'var(--accent-gold)', fontFamily: 'Oswald, sans-serif' }}>
               {locale === 'fr' ? 'MEILLEURE SAISON' : 'BEST SEASON'}
             </h4>
             <p className="text-sm" style={{ color: 'var(--text-primary)' }}>{water.bestSeason}</p>
+            {(water.depth || water.size || water.nearestCity) && (
+              <div style={{ marginTop: '0.5rem', display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
+                {water.depth && (
+                  <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
+                    📏 {locale === 'fr' ? 'Profondeur' : 'Depth'}: {water.depth}
+                  </p>
+                )}
+                {water.size && (
+                  <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
+                    📐 {locale === 'fr' ? 'Superficie' : 'Size'}: {water.size}
+                  </p>
+                )}
+                {water.nearestCity && (
+                  <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
+                    🏙️ {locale === 'fr' ? 'Ville proche' : 'Nearest city'}: {water.nearestCity}
+                  </p>
+                )}
+              </div>
+            )}
           </div>
 
           {/* Boat Launches — addresses + Google Maps link */}

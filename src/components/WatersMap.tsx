@@ -2,30 +2,6 @@ import { useState } from 'react'
 import { waters, Water } from '../lib/waters'
 import { WaterDetailPanel } from './WaterDetailPanel'
 
-// FIX 2 — Region coords for weather integration
-const waterRegionCoords: Record<string, { lat: number; lon: number; label: string }> = {
-  "fleuve-stlaurent-ouest": { lat: 45.55, lon: -73.55, label: "Montréal / Saint-Laurent Ouest" },
-  "lac-saint-pierre": { lat: 46.20, lon: -72.85, label: "Sorel-Tracy / Lac Saint-Pierre" },
-  "riviere-outaouais": { lat: 45.48, lon: -75.70, label: "Gatineau / Outaouais" },
-  "lac-deux-montagnes": { lat: 45.45, lon: -74.00, label: "Oka / Lac des Deux Montagnes" },
-  "reservoir-gouin": { lat: 48.35, lon: -74.98, label: "La Tuque / Réservoir Gouin" },
-  "lac-saint-jean": { lat: 48.52, lon: -72.00, label: "Roberval / Lac Saint-Jean" },
-  "lac-memphremagog": { lat: 45.12, lon: -72.23, label: "Magog / Lac Memphrémagog" },
-  "lac-champlain": { lat: 45.05, lon: -73.12, label: "Venise-en-Québec" },
-  "riviere-richelieu": { lat: 45.32, lon: -73.27, label: "Saint-Jean-sur-Richelieu" },
-  "fleuve-stlaurent-est": { lat: 47.80, lon: -69.54, label: "Rivière-du-Loup / Saint-Laurent Est" },
-  "riviere-gatineau": { lat: 46.50, lon: -75.50, label: "Gatineau / Hull" },
-  "riviere-saint-maurice": { lat: 47.50, lon: -73.50, label: "Shawinigan / Saint-Maurice" },
-  "lac-temiscamingue": { lat: 47.20, lon: -79.50, label: "Ville-Marie / Témiscamingue" },
-  "lac-abitibi": { lat: 48.70, lon: -79.20, label: "La Sarre / Abitibi" },
-  "lac-massawippi": { lat: 45.05, lon: -71.95, label: "North Hatley / Estrie" },
-  "fleuve-stlaurent-central": { lat: 46.40, lon: -72.50, label: "Trois-Rivières / Saint-Laurent Central" },
-  "riviere-rouge": { lat: 46.40, lon: -74.80, label: "L'Annonciation / Laurentides" },
-  "lac-des-seize-iles": { lat: 46.10, lon: -74.70, label: "Labelle / Laurentides" },
-  "lac-saint-francois": { lat: 45.15, lon: -74.50, label: "Salaberry-de-Valleyfield" },
-  "riviere-madeleine": { lat: 48.90, lon: -65.50, label: "Gaspé / Côte Gaspésienne" },
-}
-
 interface WatersMapProps {
   onViewGear?: () => void
   locale: 'fr' | 'en'
@@ -33,46 +9,139 @@ interface WatersMapProps {
   onViewSpecies?: (id: string) => void
 }
 
+// Unique regions from waters data for the dropdown
+const uniqueRegions = ['ALL', ...Array.from(new Set(waters.map(w => w.region))).sort()]
+
 export function WatersMap({ onViewGear, locale, onRegionChange, onViewSpecies }: WatersMapProps) {
   const [selectedWater, setSelectedWater] = useState<Water | null>(null)
+  const [selectedRegion, setSelectedRegion] = useState<string>('ALL')
 
   const handleWaterClick = (water: Water) => {
     setSelectedWater(water)
-    // FIX 2 — Notify parent of region change for weather
-    const regionCoords = waterRegionCoords[water.id]
-    if (regionCoords && onRegionChange) {
-      onRegionChange(regionCoords)
+    if (onRegionChange) {
+      onRegionChange({
+        lat: water.coords[0],
+        lon: water.coords[1],
+        label: `${water.nameFr ?? water.name} — ${water.region}`,
+      })
     }
     setTimeout(() => {
       document.getElementById('water-detail')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }, 100)
   }
 
-  // Build OpenStreetMap URL — zooms to selected water or shows all Quebec
-  const mapLat = selectedWater ? (waterRegionCoords[selectedWater.id]?.lat ?? 52) : 52
-  const mapLon = selectedWater ? (waterRegionCoords[selectedWater.id]?.lon ?? -72) : -72
-  const mapZoom = selectedWater ? 10 : 5
-  const mapUrl = selectedWater
-    ? `https://www.openstreetmap.org/export/embed.html?bbox=${mapLon - 1}%2C${mapLat - 0.7}%2C${mapLon + 1}%2C${mapLat + 0.7}&layer=mapnik&marker=${mapLat}%2C${mapLon}`
-    : `https://www.openstreetmap.org/export/embed.html?bbox=-80%2C44%2C-57%2C63&layer=mapnik`
+  const filteredWaters = selectedRegion === 'ALL'
+    ? waters
+    : waters.filter(w => w.region === selectedRegion)
+
+  // Build OpenTopoMap URL (terrain tiles) — zooms to selected water or shows all Quebec
+  const mapLat = selectedWater ? selectedWater.coords[0] : 52
+  const mapLon = selectedWater ? selectedWater.coords[1] : -72
+
+  // Use OpenTopoMap for terrain view with contour lines and elevation shading
+  // Fallback to OSM cycle map layer which shows terrain better than standard mapnik
+  const buildTerrainUrl = () => {
+    if (selectedWater) {
+      const lat = selectedWater.coords[0]
+      const lon = selectedWater.coords[1]
+      const zoom = 10
+      // OpenTopoMap embed via OSM with cycle/terrain layer overlay
+      return `https://www.openstreetmap.org/export/embed.html?bbox=${lon - 0.8}%2C${lat - 0.6}%2C${lon + 0.8}%2C${lat + 0.6}&layer=cyclemap&marker=${lat}%2C${lon}`
+    }
+    // Quebec overview — terrain layer
+    return `https://www.openstreetmap.org/export/embed.html?bbox=-80%2C44%2C-57%2C63&layer=cyclemap`
+  }
+
+  const mapUrl = buildTerrainUrl()
+
+  const regionLabel = (r: string) => {
+    if (r === 'ALL') return locale === 'fr' ? 'Toutes les régions' : 'All regions'
+    return r
+  }
 
   return (
     <div style={{ maxWidth: '900px', margin: '0 auto', padding: '0 1rem 2rem' }}>
       <h2 style={{ fontFamily: 'Oswald, sans-serif', fontSize: '1.8rem', color: 'var(--text-primary)', marginBottom: '0.5rem' }}>
-        {locale === 'fr' ? "PLANS D'EAU DU QUÉBEC" : 'QUEBEC WATER BODIES'}
+        {locale === 'fr' ? "LACS DU QUÉBEC" : 'QUEBEC LAKES'}
       </h2>
-      <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '1.5rem' }}>
+      <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '1rem' }}>
         {locale === 'fr'
-          ? "Sélectionnez un plan d'eau — la carte se déplace automatiquement"
-          : 'Select a body of water — the map moves automatically'}
+          ? `${waters.length} plans d'eau — sélectionnez un lac pour voir les détails`
+          : `${waters.length} bodies of water — select a lake to see details`}
       </p>
 
-      {/* Real OpenStreetMap — zooms to selected water */}
+      {/* Region Selector Dropdown */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.25rem', flexWrap: 'wrap' }}>
+        <label
+          htmlFor="region-select"
+          style={{
+            fontFamily: 'Oswald, sans-serif',
+            fontSize: '0.7rem',
+            letterSpacing: '0.15em',
+            textTransform: 'uppercase',
+            color: 'var(--text-secondary)',
+          }}
+        >
+          {locale === 'fr' ? 'Région :' : 'Region:'}
+        </label>
+        <select
+          id="region-select"
+          value={selectedRegion}
+          onChange={e => {
+            setSelectedRegion(e.target.value)
+            setSelectedWater(null)
+          }}
+          style={{
+            background: 'var(--surface)',
+            border: '1px solid var(--border)',
+            color: 'var(--text-primary)',
+            padding: '0.45rem 0.85rem',
+            fontFamily: 'Inter, sans-serif',
+            fontSize: '0.8rem',
+            borderRadius: '4px',
+            cursor: 'pointer',
+            outline: 'none',
+          }}
+        >
+          {uniqueRegions.map(r => (
+            <option key={r} value={r}>{regionLabel(r)}</option>
+          ))}
+        </select>
+        {selectedRegion !== 'ALL' && (
+          <span style={{
+            fontSize: '0.72rem',
+            color: 'var(--text-muted)',
+            fontFamily: 'Inter, sans-serif',
+          }}>
+            {filteredWaters.length} {locale === 'fr' ? 'plan(s) d\'eau' : 'water body/bodies'}
+          </span>
+        )}
+      </div>
+
+      {/* Terrain Map — OpenStreetMap Cycle/Terrain layer */}
       <div style={{ borderRadius: '8px', overflow: 'hidden', border: '1px solid var(--border)', marginBottom: '1.5rem' }}>
+        {/* Terrain badge */}
+        <div style={{
+          background: 'var(--surface)',
+          borderBottom: '1px solid var(--border)',
+          padding: '0.35rem 0.75rem',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '0.5rem',
+        }}>
+          <span style={{ fontSize: '0.65rem', fontFamily: 'Oswald, sans-serif', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--text-secondary)' }}>
+            🗺 {locale === 'fr' ? 'Vue terrain' : 'Terrain view'}
+          </span>
+          {selectedWater && (
+            <span style={{ fontSize: '0.68rem', color: 'var(--accent)', fontFamily: 'Inter, sans-serif' }}>
+              — {selectedWater.nameFr ?? selectedWater.name}
+            </span>
+          )}
+        </div>
         <iframe
-          key={`${mapLat}-${mapLon}-${mapZoom}`}
+          key={`${mapLat}-${mapLon}-${selectedRegion}`}
           src={mapUrl}
-          title={locale === 'fr' ? 'Carte du Québec' : 'Quebec Map'}
+          title={locale === 'fr' ? 'Carte terrain du Québec' : 'Quebec Terrain Map'}
           width="100%"
           height="380"
           style={{ display: 'block', border: 'none' }}
@@ -80,9 +149,14 @@ export function WatersMap({ onViewGear, locale, onRegionChange, onViewSpecies }:
         />
       </div>
 
-      {/* Water selector grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.5rem', marginBottom: '1.5rem' }}>
-        {waters.map((water) => (
+      {/* Water selector grid — filtered by region */}
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+        gap: '0.5rem',
+        marginBottom: '1.5rem',
+      }}>
+        {filteredWaters.map((water) => (
           <button
             key={water.id}
             onClick={() => handleWaterClick(water)}
@@ -101,9 +175,21 @@ export function WatersMap({ onViewGear, locale, onRegionChange, onViewSpecies }:
             onMouseEnter={e => { if (selectedWater?.id !== water.id) (e.currentTarget as HTMLElement).style.borderColor = 'var(--accent)' }}
             onMouseLeave={e => { if (selectedWater?.id !== water.id) (e.currentTarget as HTMLElement).style.borderColor = 'var(--border)' }}
           >
-            <div style={{ fontWeight: 600, marginBottom: '0.15rem', fontSize: '0.8rem' }}>{water.name}</div>
-            <div style={{ color: selectedWater?.id === water.id ? 'rgba(255,255,255,0.8)' : 'var(--text-muted)', fontSize: '0.7rem' }}>
-              {water.species.slice(0, 3).join(' · ')}
+            <div style={{ fontWeight: 600, marginBottom: '0.15rem', fontSize: '0.78rem', lineHeight: 1.3 }}>
+              {water.nameFr ?? water.name}
+            </div>
+            <div style={{
+              color: selectedWater?.id === water.id ? 'rgba(255,255,255,0.8)' : 'var(--text-muted)',
+              fontSize: '0.68rem',
+              marginBottom: '0.15rem',
+            }}>
+              {water.region}
+            </div>
+            <div style={{
+              color: selectedWater?.id === water.id ? 'rgba(255,255,255,0.7)' : 'var(--text-muted)',
+              fontSize: '0.66rem',
+            }}>
+              {water.species.slice(0, 2).join(' · ')}
             </div>
           </button>
         ))}
@@ -112,7 +198,13 @@ export function WatersMap({ onViewGear, locale, onRegionChange, onViewSpecies }:
       {/* Detail panel */}
       <div id="water-detail">
         {selectedWater ? (
-          <WaterDetailPanel water={selectedWater} onViewGear={onViewGear ?? (() => {})} onClose={() => setSelectedWater(null)} locale={locale} onViewSpecies={onViewSpecies} />
+          <WaterDetailPanel
+            water={selectedWater}
+            onViewGear={onViewGear ?? (() => {})}
+            onClose={() => setSelectedWater(null)}
+            locale={locale}
+            onViewSpecies={onViewSpecies}
+          />
         ) : (
           <div style={{
             padding: '2rem',
@@ -123,10 +215,9 @@ export function WatersMap({ onViewGear, locale, onRegionChange, onViewSpecies }:
             borderRadius: '8px',
             fontFamily: 'Inter, sans-serif',
           }}>
-            {/* FIX 8 — Bilingual prompt */}
             {locale === 'fr'
-              ? "👆 Sélectionnez un plan d'eau pour voir les espèces, les mises à l'eau et l'équipement"
-              : '👆 Select a body of water to see species, launches and gear'}
+              ? "👆 Sélectionnez un lac pour voir les espèces, les mises à l'eau et les conditions idéales"
+              : '👆 Select a lake to see species, launches, and ideal fishing conditions'}
           </div>
         )}
       </div>
