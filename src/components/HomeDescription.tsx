@@ -11,8 +11,8 @@ export function HomeDescription({ locale }: HomeDescriptionProps) {
     p2en: "Here you'll find everything you need before launching your boat: species in each water body, seasonal conditions, best lures by species, accessible boat launches, and quality gear delivered to your door.",
     p3fr: <>"Notre priorité ? <strong style={{ color: 'var(--accent)' }}>Le maskinongé.</strong> Ce géant des eaux douces qui hante le Saint-Laurent, l'Outaouais et le Lac des Deux Montagnes. Mais pas seulement — grand brochet, achigan, doré jaune, truite mouchetée et esturgeon : le Québec est une province de pêcheurs, et Appât du Nord est leur quartier général.</>,
     p3en: <>"Our priority? <strong style={{ color: 'var(--accent)' }}>Muskellunge.</strong> The giant of freshwater, haunting the St. Lawrence, Outaouais and Lac des Deux Montagnes. But not only — northern pike, bass, walleye, speckled trout and sturgeon: Quebec is a fishing province, and Appât du Nord is their headquarters.</>,
-    p4fr: "Explorez nos 20 plans d'eau, consultez nos fiches espèces, préparez votre saison.",
-    p4en: "Explore our 20 water bodies, browse species profiles, and plan your season.",
+    p4fr: "Explorez nos 41 plans d'eau, consultez nos fiches espèces, préparez votre saison.",
+    p4en: "Explore our 41 water bodies, browse species profiles, and plan your season.",
     p5fr: "Appât du Nord grandit avec une vision simple : commencer fort au Québec, puis étendre cette même qualité de contenu vers l'Ontario et, un jour, partout au Canada. On veut bâtir une plateforme utile terrain par terrain, espèce par espèce, sans perdre l'ADN local qui fait la vraie différence.",
     p5en: "Appât du Nord is growing with a simple vision: start strong in Quebec, then bring that same level of quality to Ontario and, eventually, across Canada. The goal is to build a platform that stays useful water by water and species by species without losing the local DNA that matters most.",
     p6fr: "La pêche se transmet mieux quand les pêcheurs partagent entre eux. Avec le temps, Appât du Nord veut mettre en valeur les observations du terrain, les habitudes saisonnières, les mises à l'eau, les leurres qui produisent et les petits détails qu'on apprend normalement après des années sur l'eau.",
@@ -62,9 +62,9 @@ export function HomeDescription({ locale }: HomeDescriptionProps) {
           />
           <div className="grid grid-cols-3 gap-3">
             {[
-              { label: t.stat1, value: '20' },
-              { label: t.stat2, value: '6+' },
-              { label: t.stat3, value: '34' },
+              { label: t.stat1, value: '41' },
+              { label: t.stat2, value: '21' },
+              { label: t.stat3, value: '162' },
             ].map((stat) => (
               <div
                 key={stat.label}

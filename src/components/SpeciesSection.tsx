@@ -2,11 +2,56 @@ import { useState } from 'react'
 import { speciesData, ActivityLevel } from '../lib/species'
 
 const activityColors: Record<ActivityLevel, string> = {
-  HOT: '#C59A52',
+  HOT: '#C0392B',
   ACTIVE: '#4D7C8A',
   SLOW: '#29414A',
   CLOSED: '#0D1418',
 }
+
+// Species groupings for parent-category filter
+type SpeciesGroup = 'ALL' | 'TROUT' | 'BASS' | 'PIKE' | 'WALLEYE' | 'OTHER'
+
+const SPECIES_GROUPS: Record<string, SpeciesGroup> = {
+  'brook-trout': 'TROUT',
+  'brown-trout': 'TROUT',
+  'lake-trout': 'TROUT',
+  'rainbow-trout': 'TROUT',
+  'splake': 'TROUT',
+  'atlantic-salmon': 'TROUT',
+  'arctic-char': 'TROUT',
+  'largemouth-bass': 'BASS',
+  'smallmouth-bass': 'BASS',
+  'muskellunge': 'PIKE',
+  'northern-pike': 'PIKE',
+  'walleye': 'WALLEYE',
+  'perch': 'OTHER',
+  'whitefish': 'OTHER',
+  'sturgeon': 'OTHER',
+  'carp': 'OTHER',
+  'catfish': 'OTHER',
+  'crappie': 'OTHER',
+  'bluegill': 'OTHER',
+  'eel': 'OTHER',
+  'drum': 'OTHER',
+}
+
+const GROUP_LABELS_FR: Record<SpeciesGroup, string> = {
+  ALL: 'Toutes',
+  TROUT: 'Truite / Saumon',
+  BASS: 'Achigan',
+  PIKE: 'Brochet / Maskinongé',
+  WALLEYE: 'Doré',
+  OTHER: 'Autres',
+}
+const GROUP_LABELS_EN: Record<SpeciesGroup, string> = {
+  ALL: 'All',
+  TROUT: 'Trout / Salmon',
+  BASS: 'Bass',
+  PIKE: 'Pike / Muskie',
+  WALLEYE: 'Walleye',
+  OTHER: 'Other',
+}
+const GROUPS_ORDER: SpeciesGroup[] = ['ALL', 'TROUT', 'BASS', 'PIKE', 'WALLEYE', 'OTHER']
 
 const monthNamesFr = ['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc']
 const monthNamesEn = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
@@ -18,8 +63,15 @@ interface SpeciesSectionProps {
 }
 
 export function SpeciesSection({ onScrollToArsenal, locale, initialSpecies }: SpeciesSectionProps) {
+  const [activeGroup, setActiveGroup] = useState<SpeciesGroup>('ALL')
   const [activeSpecies, setActiveSpecies] = useState(initialSpecies || speciesData[0].id)
   const [showAllLures, setShowAllLures] = useState(false)
+
+  const filteredSpecies = activeGroup === 'ALL'
+    ? speciesData
+    : speciesData.filter(sp => (SPECIES_GROUPS[sp.id] || 'OTHER') === activeGroup)
+
+  const groupLabels = locale === 'fr' ? GROUP_LABELS_FR : GROUP_LABELS_EN
 
   const species = speciesData.find(s => s.id === activeSpecies) || speciesData[0]
   const monthNames = locale === 'fr' ? monthNamesFr : monthNamesEn
@@ -70,6 +122,48 @@ export function SpeciesSection({ onScrollToArsenal, locale, initialSpecies }: Sp
         </p>
       </div>
 
+      {/* Group Filter Row */}
+      <div style={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: '0.4rem',
+        marginBottom: '1rem',
+      }}>
+        {GROUPS_ORDER.map((group) => {
+          const isActive = activeGroup === group
+          return (
+            <button
+              key={group}
+              onClick={() => {
+                setActiveGroup(group)
+                // Auto-select first species in this group
+                const firstInGroup = group === 'ALL'
+                  ? speciesData[0]
+                  : speciesData.find(sp => (SPECIES_GROUPS[sp.id] || 'OTHER') === group)
+                if (firstInGroup) { setActiveSpecies(firstInGroup.id); setShowAllLures(false) }
+              }}
+              style={{
+                padding: '0.35rem 0.85rem',
+                background: isActive ? 'var(--accent)' : 'var(--surface-2)',
+                color: isActive ? '#fff' : 'var(--muted-text)',
+                border: `1px solid ${isActive ? 'var(--accent)' : 'var(--border)'}`,
+                borderRadius: '0px',
+                fontSize: '0.7rem',
+                fontFamily: 'Roboto, sans-serif',
+                fontWeight: isActive ? 700 : 400,
+                letterSpacing: '0.12em',
+                textTransform: 'uppercase',
+                cursor: 'pointer',
+                transition: 'all 0.15s ease',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {groupLabels[group]}
+            </button>
+          )
+        })}
+      </div>
+
       {/* Species Tab Strip */}
       <div style={{
         display: 'flex',
@@ -79,7 +173,7 @@ export function SpeciesSection({ onScrollToArsenal, locale, initialSpecies }: Sp
         paddingBottom: '0.75rem',
         scrollbarWidth: 'thin',
       }}>
-        {speciesData.map((sp) => {
+        {filteredSpecies.map((sp) => {
           const tabName = locale === 'fr' ? sp.nameFr.split(' / ')[0] : sp.nameEn
           const isActive = activeSpecies === sp.id
           return (

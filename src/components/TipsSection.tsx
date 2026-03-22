@@ -67,6 +67,103 @@ export function TipsSection({ locale }: TipsSectionProps) {
         })}
       </div>
 
+      {/* Fish Identifier Section */}
+      <div
+        className="mb-8 p-5 rounded-xl"
+        style={{
+          background: 'var(--surface)',
+          border: '1px solid var(--border)',
+        }}
+      >
+        <h3
+          className="text-xl font-bold mb-2"
+          style={{ fontFamily: 'Oswald, sans-serif', color: 'var(--accent)', letterSpacing: '0.05em' }}
+        >
+          🐟 {locale === 'fr' ? 'Identifier votre prise' : 'Identify Your Catch'}
+        </h3>
+        <p className="text-sm mb-4" style={{ color: 'var(--text-secondary)', lineHeight: 1.7 }}>
+          {locale === 'fr'
+            ? 'Utilisez iPêche — l\'application officielle de reconnaissance des poissons du Québec. Consultez aussi la fiche officielle de toutes les espèces sur le site du gouvernement du Québec.'
+            : 'Use iPêche — Quebec\'s official fish ID app. Also consult the official species list on the Quebec government website.'}
+        </p>
+        <div className="flex flex-wrap gap-3">
+          <a
+            href="https://www.quebec.ca/loisirs-sport-plein-air/chasse-peche/peche/especes"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.4rem',
+              padding: '0.5rem 1rem',
+              background: 'var(--accent)',
+              color: '#fff',
+              borderRadius: '4px',
+              fontSize: '0.75rem',
+              textDecoration: 'none',
+              fontFamily: 'Roboto, sans-serif',
+              fontWeight: 600,
+              letterSpacing: '0.05em',
+              transition: 'opacity 0.2s ease',
+            }}
+            onMouseEnter={e => (e.currentTarget as HTMLElement).style.opacity = '0.85'}
+            onMouseLeave={e => (e.currentTarget as HTMLElement).style.opacity = '1'}
+          >
+            🇨🇦 {locale === 'fr' ? 'Espèces — Québec.ca' : 'Species — Quebec.ca'}
+          </a>
+          <a
+            href="https://apps.apple.com/ca/app/ip%C3%AAche/id1160834366"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.4rem',
+              padding: '0.5rem 1rem',
+              background: 'var(--surface-2)',
+              border: '1px solid var(--border)',
+              color: 'var(--text)',
+              borderRadius: '4px',
+              fontSize: '0.75rem',
+              textDecoration: 'none',
+              fontFamily: 'Roboto, sans-serif',
+              fontWeight: 500,
+              letterSpacing: '0.05em',
+              transition: 'border-color 0.2s ease',
+            }}
+            onMouseEnter={e => (e.currentTarget as HTMLElement).style.borderColor = 'var(--accent)'}
+            onMouseLeave={e => (e.currentTarget as HTMLElement).style.borderColor = 'var(--border)'}
+          >
+            🍎 iPêche — App Store
+          </a>
+          <a
+            href="https://play.google.com/store/apps/details?id=ca.qc.mddefp.ipeche"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.4rem',
+              padding: '0.5rem 1rem',
+              background: 'var(--surface-2)',
+              border: '1px solid var(--border)',
+              color: 'var(--text)',
+              borderRadius: '4px',
+              fontSize: '0.75rem',
+              textDecoration: 'none',
+              fontFamily: 'Roboto, sans-serif',
+              fontWeight: 500,
+              letterSpacing: '0.05em',
+              transition: 'border-color 0.2s ease',
+            }}
+            onMouseEnter={e => (e.currentTarget as HTMLElement).style.borderColor = 'var(--accent)'}
+            onMouseLeave={e => (e.currentTarget as HTMLElement).style.borderColor = 'var(--border)'}
+          >
+            🤖 iPêche — Google Play
+          </a>
+        </div>
+      </div>
+
       {/* Tips Grid */}
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
         {filtered.map((tip) => (

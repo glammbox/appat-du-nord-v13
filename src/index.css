@@ -9,7 +9,7 @@
   --bg: #0D1418;
   --text: #F3EFE6;
   --muted-text: #A9B6BC;
-  --accent: #C59A52;
+  --accent: #C0392B;
   --accent-alt: #4D7C8A;
   --surface: #142027;
   --surface-2: #1B2B34;
@@ -31,7 +31,7 @@
   /* Legacy aliases for backward compat */
   --bg-elevated: #142027;
   --water: #4D7C8A;
-  --accent-gold: #C59A52;
+  --accent-gold: #C0392B;
   --text-primary: #F3EFE6;
   --text-secondary: #A9B6BC;
   --text-muted: #29414A;
@@ -39,6 +39,10 @@
 
 * {
   box-sizing: border-box;
+}
+
+html {
+  overflow-x: hidden;
 }
 
 body {
@@ -50,6 +54,7 @@ body {
   font-weight: 300;
   line-height: 1.8;
   letter-spacing: 0.02em;
+  overflow-x: hidden;
 }
 
 h1, h2, h3, h4, h5, h6 {

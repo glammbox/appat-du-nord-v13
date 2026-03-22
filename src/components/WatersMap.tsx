@@ -150,9 +150,7 @@ export function WatersMap({ onViewGear, locale, onRegionChange, onViewSpecies }:
       </div>
 
       {/* Water selector grid — filtered by region */}
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3" style={{
         gap: '0.5rem',
         marginBottom: '1.5rem',
       }}>
