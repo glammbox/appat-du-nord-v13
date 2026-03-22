@@ -322,21 +322,6 @@ export function SpeciesSection({ onScrollToArsenal, locale, initialSpecies }: Sp
         {/* Right Column */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
 
-          {/* Species Photo (top of detail panel) */}
-          {species.image && (
-            <img
-              src={species.image}
-              alt={displayName}
-              style={{
-                maxHeight: '200px',
-                width: '100%',
-                objectFit: 'cover',
-                borderRadius: '4px',
-                marginBottom: '1rem',
-              }}
-            />
-          )}
-
           {/* Species Name & Tagline */}
           <div>
             <h3 style={{
