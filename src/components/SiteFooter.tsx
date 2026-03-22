@@ -43,36 +43,39 @@ export function SiteFooter({ onSectionChange, locale }: SiteFooterProps) {
         style={{
           borderBottom: '1px solid var(--border)',
           padding: '0.85rem 1.5rem',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          flexWrap: 'wrap',
-          gap: '0.25rem 1.5rem',
+          overflowX: 'auto',
+          whiteSpace: 'nowrap',
+          WebkitOverflowScrolling: 'touch',
           background: 'var(--surface)',
         }}
       >
         {navLinks.map((link) => (
-          <button
+          <span
             key={link.section}
-            onClick={() => onSectionChange?.(link.section)}
-            style={{
-              background: 'none',
-              border: 'none',
-              color: 'var(--muted-text)',
-              cursor: 'pointer',
-              fontFamily: 'Roboto, sans-serif',
-              fontSize: '0.7rem',
-              fontWeight: 500,
-              letterSpacing: '0.18em',
-              textTransform: 'uppercase',
-              padding: '0.25rem 0',
-              transition: 'color 0.15s ease',
-            }}
-            onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = 'var(--accent)'}
-            onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = 'var(--muted-text)'}
+            style={{ display: 'inline-block', marginRight: '1.5rem' }}
           >
-            {link.label}
-          </button>
+            <button
+              onClick={() => onSectionChange?.(link.section)}
+              style={{
+                background: 'none',
+                border: 'none',
+                color: 'var(--muted-text)',
+                cursor: 'pointer',
+                fontFamily: 'Roboto, sans-serif',
+                fontSize: '0.7rem',
+                fontWeight: 500,
+                letterSpacing: '0.18em',
+                textTransform: 'uppercase',
+                padding: '0.25rem 0',
+                transition: 'color 0.15s ease',
+                whiteSpace: 'nowrap',
+              }}
+              onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = 'var(--accent)'}
+              onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = 'var(--muted-text)'}
+            >
+              {link.label}
+            </button>
+          </span>
         ))}
       </nav>
 

@@ -53,6 +53,24 @@ export function SiteHeader({ locale, onLocaleToggle, cartCount = 0 }: SiteHeader
           🇨🇦 {locale === 'fr' ? 'Saison 2026' : 'Season 2026'}
         </span>
 
+        {/* Guides Nav Link */}
+        <a
+          href="#guides"
+          style={{
+            fontFamily: 'Roboto, sans-serif',
+            fontSize: 'var(--eyebrow)',
+            color: 'var(--muted-text)',
+            letterSpacing: '0.1em',
+            textTransform: 'uppercase',
+            textDecoration: 'none',
+            transition: 'color 0.15s ease',
+          }}
+          onMouseEnter={e => (e.currentTarget as HTMLElement).style.color = 'var(--accent)'}
+          onMouseLeave={e => (e.currentTarget as HTMLElement).style.color = 'var(--muted-text)'}
+        >
+          {locale === 'fr' ? 'Guides' : 'Guides'}
+        </a>
+
         {/* Cart */}
         {cartCount > 0 && (
           <div style={{ position: 'relative', display: 'inline-block', cursor: 'default', color: 'var(--text)' }}>
