@@ -54,7 +54,7 @@ export function HomeDescription({ locale }: HomeDescriptionProps) {
         {/* Stats + Photo Right */}
         <div className="space-y-4">
           <img
-            src="https://images.pexels.com/photos/1166645/pexels-photo-1166645.jpeg"
+            src="https://images.pexels.com/photos/2649403/pexels-photo-2649403.jpeg"
             alt={locale === 'fr' ? 'Pêcheur au lancer — coucher de soleil sur le lac' : 'Fisherman casting — lake at sunset'}
             style={{ width: '100%', height: '300px', objectFit: 'cover', display: 'block', marginBottom: '2rem' }}
           />

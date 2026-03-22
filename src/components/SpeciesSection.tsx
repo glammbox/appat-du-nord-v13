@@ -164,16 +164,12 @@ export function SpeciesSection({ onScrollToArsenal, locale, initialSpecies }: Sp
         })}
       </div>
 
-      {/* Species Tab Strip */}
+      {/* Species Card Grid */}
       <div style={{
-        display: 'flex',
-        overflowX: 'auto',
-        whiteSpace: 'nowrap',
-        WebkitOverflowScrolling: 'touch',
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))',
         gap: '0.5rem',
         marginBottom: '2rem',
-        paddingBottom: '0.75rem',
-        scrollbarWidth: 'thin',
       }}>
         {filteredSpecies.map((sp) => {
           const tabName = locale === 'fr' ? sp.nameFr.split(' / ')[0] : sp.nameEn
@@ -183,33 +179,49 @@ export function SpeciesSection({ onScrollToArsenal, locale, initialSpecies }: Sp
               key={sp.id}
               onClick={() => { setActiveSpecies(sp.id); setShowAllLures(false) }}
               style={{
-                flexShrink: 0,
-                padding: '0.5rem 1rem',
+                padding: 0,
                 background: isActive ? 'var(--accent)' : 'var(--surface)',
-                color: isActive ? '#0D1418' : 'var(--muted-text)',
                 border: `1px solid ${isActive ? 'var(--accent)' : 'var(--border)'}`,
-                borderRadius: '0px',
-                fontSize: 'var(--eyebrow)',
-                fontFamily: 'Roboto, sans-serif',
-                fontWeight: isActive ? 700 : 400,
-                letterSpacing: '0.1em',
-                textTransform: 'uppercase',
+                borderRadius: '4px',
                 cursor: 'pointer',
                 transition: 'all 0.2s ease',
-                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                display: 'flex',
+                flexDirection: 'column',
+                textAlign: 'left',
               }}
             >
-              {tabName}
-              {sp.catchRelease && (
-                <span style={{ marginLeft: '0.4rem', opacity: 0.7, fontSize: '9px' }}>C&R</span>
+              {sp.image && (
+                <img
+                  src={sp.image}
+                  alt={sp.nameFr}
+                  style={{ width: '100%', height: '80px', objectFit: 'cover', borderRadius: '4px 4px 0 0', display: 'block' }}
+                />
               )}
+              <div style={{ padding: '0.4rem 0.5rem' }}>
+                <span style={{
+                  color: isActive ? '#0D1418' : 'var(--muted-text)',
+                  fontSize: 'var(--eyebrow)',
+                  fontFamily: 'Roboto, sans-serif',
+                  fontWeight: isActive ? 700 : 400,
+                  letterSpacing: '0.1em',
+                  textTransform: 'uppercase',
+                  display: 'block',
+                  lineHeight: 1.3,
+                }}>
+                  {tabName}
+                </span>
+                {sp.catchRelease && (
+                  <span style={{ opacity: 0.6, fontSize: '9px', letterSpacing: '0.05em', color: isActive ? '#0D1418' : 'var(--muted-text)' }}>C&R</span>
+                )}
+              </div>
             </button>
           )
         })}
       </div>
 
       {/* Species Detail Panel */}
-      <div className="species-detail-grid" style={{ display: 'grid', gap: '2.5rem' }}>
+      <div className="species-detail-grid" style={{ display: 'grid', gap: '2.5rem', alignItems: 'flex-start' }}>
 
         {/* Left Column */}
         <div>
