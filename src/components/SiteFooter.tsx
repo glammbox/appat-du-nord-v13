@@ -104,6 +104,8 @@ export function SiteFooter({ onSectionChange, locale }: SiteFooterProps) {
             justifyContent: 'center',
             flexWrap: 'wrap',
             gap: '0.5rem 2rem',
+            overflowX: 'auto',
+            WebkitOverflowScrolling: 'touch',
           }}
         >
           {SPONSORS.map((sponsor) => (
@@ -126,15 +128,15 @@ export function SiteFooter({ onSectionChange, locale }: SiteFooterProps) {
             >
               {/* SVG text logo — clean, always-readable, no external image dependency */}
               <svg
-                width="90"
+                width="120"
                 height="28"
-                viewBox="0 0 90 28"
+                viewBox="0 0 120 28"
                 xmlns="http://www.w3.org/2000/svg"
                 aria-label={sponsor.name}
                 role="img"
               >
                 <text
-                  x="45"
+                  x="60"
                   y="19"
                   textAnchor="middle"
                   fontFamily="Oswald, sans-serif"

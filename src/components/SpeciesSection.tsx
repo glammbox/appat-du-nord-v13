@@ -168,6 +168,8 @@ export function SpeciesSection({ onScrollToArsenal, locale, initialSpecies }: Sp
       <div style={{
         display: 'flex',
         overflowX: 'auto',
+        whiteSpace: 'nowrap',
+        WebkitOverflowScrolling: 'touch',
         gap: '0.5rem',
         marginBottom: '2rem',
         paddingBottom: '0.75rem',
