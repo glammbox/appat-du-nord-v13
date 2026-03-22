@@ -63,15 +63,16 @@ export function HomeDescription({ locale }: HomeDescriptionProps) {
         {/* RIGHT — Tall vertical photo */}
         <div>
           <img
-            src="/images/hero/fisherman-action.jpg"
+            src="/images/hero/fisherman-vertical.jpg"
             alt={locale === 'fr' ? 'Pêcheur au bord du lac' : 'Angler fishing at the lake'}
             style={{
-              height: '400px',
+              height: '100%',
               width: '100%',
               objectFit: 'cover',
               objectPosition: 'center center',
               borderRadius: '8px',
               display: 'block',
+              minHeight: '400px',
             }}
           />
         </div>
