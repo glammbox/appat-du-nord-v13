@@ -97,3 +97,24 @@ h1, h2, h3, h4, h5, h6 {
   padding-top: var(--section-pad);
   padding-bottom: var(--section-pad);
 }
+
+/* Mobile Responsive — Species Section */
+.species-detail-grid {
+  grid-template-columns: 1fr;
+}
+@media (min-width: 768px) {
+  .species-detail-grid {
+    grid-template-columns: 1fr 2fr;
+  }
+}
+
+/* Prevent any element from overflowing mobile viewport */
+img, video, canvas, svg {
+  max-width: 100%;
+}
+
+/* Species tab strip — allow horizontal scroll but constrain width */
+.species-tab-strip {
+  max-width: 100%;
+  overflow-x: auto;
+}

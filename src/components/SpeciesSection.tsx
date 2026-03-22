@@ -207,7 +207,7 @@ export function SpeciesSection({ onScrollToArsenal, locale, initialSpecies }: Sp
       </div>
 
       {/* Species Detail Panel */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '2.5rem' }}>
+      <div className="species-detail-grid" style={{ display: 'grid', gap: '2.5rem' }}>
 
         {/* Left Column */}
         <div>
