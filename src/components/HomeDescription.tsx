@@ -33,7 +33,7 @@ export function HomeDescription({ locale }: HomeDescriptionProps) {
           display: 'grid',
           gridTemplateColumns: '1fr 1fr',
           gap: '2rem',
-          alignItems: 'flex-start',
+          alignItems: 'stretch',
         }}
         className="home-description-top"
       >
@@ -58,11 +58,12 @@ export function HomeDescription({ locale }: HomeDescriptionProps) {
         </div>
 
         {/* RIGHT — Tall vertical photo */}
-        <div>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
           <img
             src="/images/hero/fisherman-vertical.jpg"
             alt={locale === 'fr' ? 'Pêcheur au bord du lac' : 'Angler fishing at the lake'}
             style={{
+              flex: 1,
               height: '100%',
               width: '100%',
               objectFit: 'cover',
