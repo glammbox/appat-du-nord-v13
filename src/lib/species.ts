@@ -37,6 +37,7 @@ export interface Species {
   seasonalBehaviorFr: string
   // Images
   imageFile?: string
+  image?: string
   subtypes?: SubType[]
   // Sizes
   avgSize: string
@@ -169,6 +170,7 @@ export const speciesData: Species[] = [
     nameFr: 'Omble de fontaine / Truite mouchetée',
     name: 'Truite mouchetée',
     scientificName: 'Salvelinus fontinalis',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Brook_trout_in_water.jpg/800px-Brook_trout_in_water.jpg',
     tagline: 'L\'emblème du Québec. La reine des eaux froides.',
     taglineFr: 'L\'emblème du Québec. La reine des eaux froides.',
     appearance: 'Beautiful char with vermiculated olive back, pale spots, red spots often haloed in blue, and lower fins edged with white/orange-black. Quebec "speckled trout" icon. Also has anadromous/coastal forms on the Côte-Nord.',
@@ -498,6 +500,7 @@ export const speciesData: Species[] = [
     nameFr: 'Touladi / Truite de lac',
     name: 'Touladi',
     scientificName: 'Salvelinus namaycush',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Lake_trout_fishes_salvelinus_namaycush.jpg/800px-Lake_trout_fishes_salvelinus_namaycush.jpg',
     tagline: 'Le géant des profondeurs. Le record officiel du Québec.',
     taglineFr: 'Le géant des profondeurs. Le record officiel du Québec.',
     appearance: 'Long-bodied char with many light spots on darker background; some populations appear silvery; orange/red fins especially in northern fish. Can hybridize with brook trout to form splake. Deeply forked tail is distinctive.',
@@ -550,6 +553,7 @@ export const speciesData: Species[] = [
     nameFr: 'Achigan à grande bouche',
     name: 'Achigan à grande bouche',
     scientificName: 'Micropterus salmoides',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Largemouth_Bass_%28Micropterus_salmoides%29_June_2023_%28cropped%29.jpg/800px-Largemouth_Bass_%28Micropterus_salmoides%29_June_2023_%28cropped%29.jpg',
     tagline: 'Le combattant des herbiers. Topwater king.',
     taglineFr: 'Le combattant des herbiers. Le roi du topwater.',
     appearance: 'Green to brown-green fish with a dark lateral band; larger mouth than smallmouth, with upper jaw extending beyond the eye; dorsal lobes nearly separated. Built for weed and cover-oriented ambush in warm water. Primarily southern Quebec in the St. Lawrence basin up to Saint-Nicolas, also the Richelieu, Outaouais, and some Estrie lakes.',
@@ -605,6 +609,7 @@ export const speciesData: Species[] = [
     nameFr: 'Maskinongé',
     name: 'Maskinongé',
     scientificName: 'Esox masquinongy',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Muskellunge.jpg/800px-Muskellunge.jpg',
     tagline: 'Le roi des eaux douces. Le poisson des 10 000 lancers.',
     taglineFr: 'Le roi des eaux douces. Le poisson des 10 000 lancers.',
     appearance: 'Quebec\'s largest freshwater esocid — elongated torpedo body, long duckbill snout, light background with darker bars/spots. Fully scaled cheeks distinguish it from pike. Can exceed 140 cm and 25 kg.',
@@ -665,6 +670,7 @@ export const speciesData: Species[] = [
     nameFr: 'Grand brochet',
     name: 'Grand brochet',
     scientificName: 'Esox lucius',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Esox_lucius_ZOO_1.jpg/800px-Esox_lucius_ZOO_1.jpg',
     tagline: 'Le prédateur qui attend. Patient, fulgurant.',
     taglineFr: 'Le prédateur qui attend. Patient, fulgurant.',
     appearance: 'Long, laterally compressed body; broad flattened snout; dorsal and anal fins set far back near the tail. Olive to dark green back with rows of pale bean-shaped spots on sides; cream-white underside. Distinguished from muskie by pale spots on darker body.',
@@ -722,6 +728,7 @@ export const speciesData: Species[] = [
     nameFr: 'Perchaude',
     name: 'Perchaude',
     scientificName: 'Perca flavescens',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Yellow_Perch_%28Perca_flavescens%29_%28cropped%29.jpg/800px-Yellow_Perch_%28Perca_flavescens%29_%28cropped%29.jpg',
     tagline: 'La reine des frites québécoises. La perchaude chérie.',
     taglineFr: 'La reine des frites québécoises. La perchaude chérie.',
     appearance: 'Yellow-green with 6–8 dark vertical bars. Small, spiny-rayed fish. Highly distinctive and beloved in Quebec.',
@@ -770,6 +777,7 @@ export const speciesData: Species[] = [
     nameFr: 'Truite arc-en-ciel',
     name: 'Truite arc-en-ciel',
     scientificName: 'Oncorhynchus mykiss',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Close_up_of_rainbow_trout_fish_underwater_oncorhynchus_mykiss.jpg/800px-Close_up_of_rainbow_trout_fish_underwater_oncorhynchus_mykiss.jpg',
     tagline: 'The acrobat of Quebec trout fishing.',
     taglineFr: 'L\'acrobate de la pêche à la truite au Québec.',
     appearance: 'Silvery with pink-red lateral stripe and black spotting on body and fins. Spectacular leaping fighter.',
@@ -869,6 +877,7 @@ export const speciesData: Species[] = [
     nameFr: 'Achigan à petite bouche',
     name: 'Achigan à petite bouche',
     scientificName: 'Micropterus dolomieu',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Smallmouth_Bass_%2849561724026%29.jpg/800px-Smallmouth_Bass_%2849561724026%29.jpg',
     tagline: 'Pound for pound, Quebec\'s hardest fighting fish.',
     taglineFr: 'Livre pour livre, le poisson qui se bat le plus fort au Québec.',
     appearance: 'Bronze to olive-brown body, dark mottling/bars, reddish or orange eyes, slightly forked tail, and mouth where upper jaw reaches only to about the middle of the eye. Dorsal lobes are connected. Mainly in southern Quebec, extending farther north than largemouth, present in St. Lawrence and fluvial lakes, multiple watersheds, eastward toward Montmagny.',
@@ -1018,6 +1027,7 @@ export const speciesData: Species[] = [
     nameFr: 'Doré jaune',
     name: 'Doré jaune',
     scientificName: 'Sander vitreus',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Walleye_%28Sander_vitreus%29_%281%29.jpg/800px-Walleye_%28Sander_vitreus%29_%281%29.jpg',
     tagline: 'Le poisson des Québécois. Champion de la table.',
     taglineFr: 'Le poisson des Québécois. Champion de la table.',
     appearance: 'Elongated percid with olive-gold sides, distinctive white-tipped lower tail lobe, reflective tapetum eyes adapted to dim light, and canine-like teeth. Quebec also documents a blue phenotype in northern waters.',
