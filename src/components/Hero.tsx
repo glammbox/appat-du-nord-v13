@@ -11,8 +11,8 @@ export function Hero({ locale }: HeroProps) {
       <img
         src="/images/hero/fishing-hero.jpg"
         alt={locale === 'fr' ? 'Pêche au Québec' : 'Quebec Fishing'}
-        className="absolute inset-0 w-full h-full object-cover"
-        style={{ objectPosition: 'center 30%' }}
+        className="absolute inset-0 w-full h-full"
+        style={{ objectFit: 'cover', objectPosition: 'center 55%', transform: 'scale(0.85)', transformOrigin: 'center center' }}
       />
       {/* Dark gradient overlay */}
       <div
