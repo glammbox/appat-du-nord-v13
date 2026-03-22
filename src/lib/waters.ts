@@ -947,3 +947,6 @@ export const waters: Water[] = [
     nearestCity: 'Baie-Comeau',
   },
 ]
+
+// Sort alphabetically by nameFr
+waters.sort((a, b) => a.nameFr.localeCompare(b.nameFr, 'fr', { sensitivity: 'base' }))

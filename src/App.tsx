@@ -7,6 +7,7 @@ import { SiteFooter } from './components/SiteFooter'
 import { useToast } from './components/Toast'
 
 // Lazy-load all heavy sections to prevent startup crashes
+const GuidesSection = lazy(() => import('./components/GuidesSection').then(m => ({ default: m.GuidesSection })))
 const WatersMap = lazy(() => import('./components/WatersMap').then(m => ({ default: m.WatersMap })))
 const SpeciesSection = lazy(() => import('./components/SpeciesSection').then(m => ({ default: m.SpeciesSection })))
 const CalendarSection = lazy(() => import('./components/CalendarSection').then(m => ({ default: m.CalendarSection })))
@@ -115,6 +116,10 @@ function App() {
           )}
         </Suspense>
       </div>
+      {/* Guides / Books Section */}
+      <Suspense fallback={<LoadingSection />}>
+        <GuidesSection locale={locale} />
+      </Suspense>
       <SiteFooter
         locale={locale}
         onSectionChange={(s) => handleSectionSelect(s as Section)}

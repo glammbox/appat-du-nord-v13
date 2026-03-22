@@ -122,7 +122,7 @@ export function SpeciesSection({ onScrollToArsenal, locale, initialSpecies }: Sp
         </p>
       </div>
 
-      {/* Group Filter Row */}
+      {/* Group Filter Row (ABOVE tab strip) */}
       <div style={{
         display: 'flex',
         flexWrap: 'wrap',
@@ -136,7 +136,6 @@ export function SpeciesSection({ onScrollToArsenal, locale, initialSpecies }: Sp
               key={group}
               onClick={() => {
                 setActiveGroup(group)
-                // Auto-select first species in this group
                 const firstInGroup = group === 'ALL'
                   ? speciesData[0]
                   : speciesData.find(sp => (SPECIES_GROUPS[sp.id] || 'OTHER') === group)
@@ -164,13 +163,18 @@ export function SpeciesSection({ onScrollToArsenal, locale, initialSpecies }: Sp
         })}
       </div>
 
-      {/* Species Card Grid */}
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))',
-        gap: '0.5rem',
-        marginBottom: '2rem',
-      }}>
+      {/* Horizontal Scrollable Tab Strip */}
+      <div
+        style={{
+          overflowX: 'auto',
+          whiteSpace: 'nowrap',
+          scrollbarColor: '#C0392B #1a1a1a',
+          scrollbarWidth: 'thin',
+          marginBottom: '1.5rem',
+          borderBottom: '1px solid var(--border)',
+          paddingBottom: '0',
+        }}
+      >
         {filteredSpecies.map((sp) => {
           const tabName = locale === 'fr' ? sp.nameFr.split(' / ')[0] : sp.nameEn
           const isActive = activeSpecies === sp.id
@@ -179,55 +183,39 @@ export function SpeciesSection({ onScrollToArsenal, locale, initialSpecies }: Sp
               key={sp.id}
               onClick={() => { setActiveSpecies(sp.id); setShowAllLures(false) }}
               style={{
-                padding: 0,
-                background: isActive ? 'var(--accent)' : 'var(--surface)',
-                border: `1px solid ${isActive ? 'var(--accent)' : 'var(--border)'}`,
-                borderRadius: '4px',
+                display: 'inline-block',
+                margin: '0 8px',
+                padding: '8px 16px',
                 cursor: 'pointer',
-                transition: 'all 0.2s ease',
-                overflow: 'hidden',
-                display: 'flex',
-                flexDirection: 'column',
-                textAlign: 'left',
+                background: 'none',
+                border: 'none',
+                borderBottom: isActive ? '3px solid #C0392B' : '3px solid transparent',
+                color: isActive ? '#C0392B' : 'var(--muted-text)',
+                fontFamily: 'Roboto, sans-serif',
+                fontSize: '0.78rem',
+                fontWeight: isActive ? 700 : 400,
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                transition: 'all 0.15s ease',
+                whiteSpace: 'nowrap',
+                paddingBottom: '10px',
               }}
             >
-              {sp.image ? (
-                <img src={sp.image} alt={sp.nameFr} style={{width:'100%', height:'140px', objectFit:'cover', borderRadius:'4px 4px 0 0', display:'block'}} />
-              ) : (
-                <div style={{width:'100%', height:'140px', background:'#1a2226', borderRadius:'4px 4px 0 0', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'2rem'}}>🐟</div>
-              )}
-              <div style={{ padding: '0.4rem 0.5rem' }}>
-                <span style={{
-                  color: isActive ? '#0D1418' : 'var(--muted-text)',
-                  fontSize: 'var(--eyebrow)',
-                  fontFamily: 'Roboto, sans-serif',
-                  fontWeight: isActive ? 700 : 400,
-                  letterSpacing: '0.1em',
-                  textTransform: 'uppercase',
-                  display: 'block',
-                  lineHeight: 1.3,
-                }}>
-                  {tabName}
-                </span>
-                {sp.catchRelease && (
-                  <span style={{ opacity: 0.6, fontSize: '9px', letterSpacing: '0.05em', color: isActive ? '#0D1418' : 'var(--muted-text)' }}>C&R</span>
-                )}
-              </div>
+              {tabName}
             </button>
           )
         })}
       </div>
 
-      {/* Species Detail Panel */}
+      {/* 2-Column Detail Panel */}
       <div className="species-detail-grid" style={{ display: 'grid', gap: '2.5rem', alignItems: 'flex-start' }}>
 
-        {/* Left Column */}
+        {/* Left Column — Fish Photo */}
         <div>
-          {/* Species Photo */}
           <div style={{
             width: '100%',
-            aspectRatio: '4/3',
-            background: 'var(--surface)',
+            height: '300px',
+            background: '#0D1418',
             border: '1px solid var(--border)',
             display: 'flex',
             alignItems: 'center',
@@ -238,7 +226,7 @@ export function SpeciesSection({ onScrollToArsenal, locale, initialSpecies }: Sp
             <img
               src={species.image || `/images/fish/${species.imageFile}`}
               alt={displayName}
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              style={{ width: '100%', height: '100%', objectFit: 'contain' }}
               onError={(e) => {
                 const el = e.target as HTMLImageElement
                 el.style.display = 'none'
@@ -317,7 +305,7 @@ export function SpeciesSection({ onScrollToArsenal, locale, initialSpecies }: Sp
           )}
         </div>
 
-        {/* Right Column */}
+        {/* Right Column — All Fish Info */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
 
           {/* Species Name & Tagline */}
