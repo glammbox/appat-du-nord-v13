@@ -191,12 +191,10 @@ export function SpeciesSection({ onScrollToArsenal, locale, initialSpecies }: Sp
                 textAlign: 'left',
               }}
             >
-              {sp.image && (
-                <img
-                  src={sp.image}
-                  alt={sp.nameFr}
-                  style={{ width: '100%', height: '80px', objectFit: 'cover', borderRadius: '4px 4px 0 0', display: 'block' }}
-                />
+              {sp.image ? (
+                <img src={sp.image} alt={sp.nameFr} style={{width:'100%', height:'140px', objectFit:'cover', borderRadius:'4px 4px 0 0', display:'block'}} />
+              ) : (
+                <div style={{width:'100%', height:'140px', background:'#1a2226', borderRadius:'4px 4px 0 0', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'2rem'}}>🐟</div>
               )}
               <div style={{ padding: '0.4rem 0.5rem' }}>
                 <span style={{
