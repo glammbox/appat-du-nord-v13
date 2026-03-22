@@ -28,9 +28,18 @@ export function HomeDescription({ locale }: HomeDescriptionProps) {
   }
 
   return (
-    <section className="max-w-6xl mx-auto px-4 py-10">
-      <div className="grid md:grid-cols-2 gap-10 items-start">
-        {/* Text Left */}
+    <section className="max-w-6xl mx-auto px-4 py-10" style={{ display: 'flex', flexDirection: 'column' }}>
+      {/* Top section: 2-column grid — text left, tall photo right */}
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr',
+          gap: '2rem',
+          alignItems: 'flex-start',
+        }}
+        className="home-description-top"
+      >
+        {/* LEFT — Text content */}
         <div>
           <h2
             className="text-3xl font-bold mb-5"
@@ -51,42 +60,68 @@ export function HomeDescription({ locale }: HomeDescriptionProps) {
           </div>
         </div>
 
-        {/* Stats + Photo Right */}
-        <div className="space-y-4">
+        {/* RIGHT — Tall vertical photo */}
+        <div>
           <img
-            src="https://images.pexels.com/photos/2649403/pexels-photo-2649403.jpeg"
-            alt={locale === 'fr' ? 'Pêcheur au lancer — coucher de soleil sur le lac' : 'Fisherman casting — lake at sunset'}
-            style={{ width: '100%', height: '300px', objectFit: 'cover', display: 'block', marginBottom: '2rem' }}
+            src="https://images.pexels.com/photos/1108572/pexels-photo-1108572.jpeg"
+            alt={locale === 'fr' ? 'Pêcheur dans la nature québécoise' : 'Fisherman in Quebec nature'}
+            style={{
+              height: '400px',
+              width: '100%',
+              objectFit: 'cover',
+              borderRadius: '8px',
+              display: 'block',
+            }}
           />
-          <div className="grid grid-cols-3 gap-3">
-            {[
-              { label: t.stat1, value: '41' },
-              { label: t.stat2, value: '21' },
-              { label: t.stat3, value: '162' },
-            ].map((stat) => (
-              <div
-                key={stat.label}
-                className="rounded-lg p-3 text-center"
-                style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}
-              >
-                <div
-                  className="text-2xl font-bold"
-                  style={{ fontFamily: 'Oswald, sans-serif', color: 'var(--accent-gold)' }}
-                >
-                  {stat.value}
-                </div>
-                <div className="text-xs" style={{ color: 'var(--text-muted)' }}>{stat.label}</div>
-              </div>
-            ))}
-          </div>
-          <div
-            className="rounded-lg p-3 text-xs"
-            style={{ background: 'var(--surface)', border: '1px solid var(--border)', color: 'var(--text-muted)' }}
-          >
-            {t.footer}
-          </div>
         </div>
       </div>
+
+      {/* Bottom — Stats row, full width, 3 cards side by side */}
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(3, 1fr)',
+          gap: '1rem',
+          marginTop: '2rem',
+        }}
+      >
+        {[
+          { label: t.stat1, value: '41' },
+          { label: t.stat2, value: '21' },
+          { label: t.stat3, value: '162' },
+        ].map((stat) => (
+          <div
+            key={stat.label}
+            className="rounded-lg p-4 text-center"
+            style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}
+          >
+            <div
+              className="text-3xl font-bold"
+              style={{ fontFamily: 'Oswald, sans-serif', color: 'var(--accent-gold)' }}
+            >
+              {stat.value}
+            </div>
+            <div className="text-sm mt-1" style={{ color: 'var(--text-muted)' }}>{stat.label}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Footer note */}
+      <div
+        className="rounded-lg p-3 text-xs mt-3"
+        style={{ background: 'var(--surface)', border: '1px solid var(--border)', color: 'var(--text-muted)' }}
+      >
+        {t.footer}
+      </div>
+
+      {/* Mobile responsive styles */}
+      <style>{`
+        @media (max-width: 768px) {
+          .home-description-top {
+            grid-template-columns: 1fr !important;
+          }
+        }
+      `}</style>
     </section>
   )
 }
