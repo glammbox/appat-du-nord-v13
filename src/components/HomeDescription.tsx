@@ -52,13 +52,11 @@ export function HomeDescription({ locale }: HomeDescriptionProps) {
         </div>
 
         {/* Stats + Photo Right */}
-        {/* FIX 1 — Use water scene instead of hero/fish photo to avoid duplicate */}
         <div className="space-y-4">
           <img
-            src="/images/lakes/lake-5.jpg"
-            alt={locale === 'fr' ? 'Réservoir Gouin — paysage sauvage' : 'Gouin Reservoir — wilderness lake'}
-            className="w-full rounded-xl object-cover"
-            style={{ height: '200px', border: '1px solid var(--border)' }}
+            src="https://images.pexels.com/photos/1166645/pexels-photo-1166645.jpeg"
+            alt={locale === 'fr' ? 'Pêcheur au lancer — coucher de soleil sur le lac' : 'Fisherman casting — lake at sunset'}
+            style={{ width: '100%', height: '300px', objectFit: 'cover', display: 'block', marginBottom: '2rem' }}
           />
           <div className="grid grid-cols-3 gap-3">
             {[
